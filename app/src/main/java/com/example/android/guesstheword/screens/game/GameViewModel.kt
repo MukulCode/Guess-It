@@ -6,10 +6,10 @@ import androidx.lifecycle.ViewModel
 
 class GameViewModel : ViewModel(){
 
-    // The current word
+    // The current word wrapped in LiveData
     var word = MutableLiveData<String>()
 
-    // The current score
+    // The current score wrapped in LiveData
     var score = MutableLiveData<Int>()
 
     // The list of words - the front of the list is the next word to guess
@@ -63,7 +63,7 @@ class GameViewModel : ViewModel(){
     private fun nextWord() {
         //Select and remove a word from the list
         if (wordList.isEmpty()) {
-//            gameFinished()
+//TODO            gameFinished()
         } else {
             word.value = wordList.removeAt(0)
         }

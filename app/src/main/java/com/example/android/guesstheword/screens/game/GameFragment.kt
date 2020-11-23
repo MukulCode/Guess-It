@@ -57,7 +57,7 @@ class GameFragment : Fragment() {
 
 
 
-
+        //Set On Click Listeners for buttons
         binding.correctButton.setOnClickListener {
             viewModel.onCorrect()
         }
