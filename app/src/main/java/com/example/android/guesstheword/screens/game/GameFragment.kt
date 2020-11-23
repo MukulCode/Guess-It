@@ -29,6 +29,8 @@ import com.example.android.guesstheword.databinding.GameFragmentBinding
 /**
  * Fragment where the game is played
  */
+
+public var KEY_SCORE = "score_key"
 class GameFragment : Fragment() {
 
     // The current word
@@ -58,6 +60,11 @@ class GameFragment : Fragment() {
 
         binding.correctButton.setOnClickListener { onCorrect() }
         binding.skipButton.setOnClickListener { onSkip() }
+
+        if(savedInstanceState != null){
+            score = savedInstanceState.getInt(KEY_SCORE)
+        }
+
         updateScoreText()
         updateWordText()
         return binding.root
@@ -137,5 +144,10 @@ class GameFragment : Fragment() {
 
     private fun updateScoreText() {
         binding.scoreText.text = score.toString()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt(KEY_SCORE, score)
     }
 }
