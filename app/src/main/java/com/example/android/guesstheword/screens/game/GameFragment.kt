@@ -23,6 +23,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment.findNavController
@@ -33,7 +34,6 @@ import com.example.android.guesstheword.databinding.GameFragmentBinding
  * Fragment where the game is played
  */
 
-//public var KEY_SCORE = "score_key"
 class GameFragment : Fragment() {
 
 
@@ -60,17 +60,20 @@ class GameFragment : Fragment() {
 
         binding.correctButton.setOnClickListener {
             viewModel.onCorrect()
-            updateScoreText()
-            updateWordText()
         }
         binding.skipButton.setOnClickListener {
             viewModel.onSkip()
-            updateScoreText()
-            updateWordText()
         }
 
-        updateScoreText()
-        updateWordText()
+
+        //Observer Relationship for LiveData
+        viewModel.score.observe(viewLifecycleOwner, Observer { newScore ->
+            binding.scoreText.text = newScore.toString()
+        })
+        viewModel.word.observe(viewLifecycleOwner, Observer {newWord ->
+            binding.wordText.text = newWord.toString()
+        })
+
         return binding.root
 
     }
@@ -81,19 +84,7 @@ class GameFragment : Fragment() {
     //This function is navigating when the game is ended
     //All navigation code should be in UI Controller so that's why it is not in GameViewModel
     private fun gameFinished() {
-        val action = GameFragmentDirections.actionGameToScore(viewModel.score)
+        val action = GameFragmentDirections.actionGameToScore(viewModel.score.value?: 0)
         findNavController(this).navigate(action)
-    }
-
-
-    /** Methods for updating the UI **/
-
-    private fun updateWordText() {
-        binding.wordText.text = viewModel.word
-
-    }
-
-    private fun updateScoreText() {
-        binding.scoreText.text = viewModel.score.toString()
     }
 }
