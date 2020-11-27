@@ -54,18 +54,20 @@ class GameFragment : Fragment() {
                 false
         )
 
+
         Log.i("GameFragment", "Called ViewModelProviderOf")
         viewModel = ViewModelProviders.of(this).get(GameViewModel::class.java)
+        binding.gameViewModel = viewModel
 
 
 
-        //Set On Click Listeners for buttons
-        binding.correctButton.setOnClickListener {
-            viewModel.onCorrect()
-        }
-        binding.skipButton.setOnClickListener {
-            viewModel.onSkip()
-        }
+        //Set On Click Listeners for buttons, Update : I have set them in XML file game_fragment
+//        binding.correctButton.setOnClickListener {
+//            viewModel.onCorrect()
+//        }
+//        binding.skipButton.setOnClickListener {
+//            viewModel.onSkip()
+//        }
 
 
         //Observer Relationship for LiveData
